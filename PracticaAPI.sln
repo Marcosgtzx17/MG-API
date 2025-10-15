@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PracticaAPI", "PracticaAPI\PracticaAPI.csproj", "{CE594609-4666-4A9C-BE58-7DC563FB577C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PracticaAPI.TestXUnit", "PracticaAPI.TestXUnit\PracticaAPI.TestXUnit.csproj", "{47167B70-45FB-4D3F-A2A9-5BBFB3C8F69A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{CE594609-4666-4A9C-BE58-7DC563FB577C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE594609-4666-4A9C-BE58-7DC563FB577C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE594609-4666-4A9C-BE58-7DC563FB577C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47167B70-45FB-4D3F-A2A9-5BBFB3C8F69A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47167B70-45FB-4D3F-A2A9-5BBFB3C8F69A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47167B70-45FB-4D3F-A2A9-5BBFB3C8F69A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47167B70-45FB-4D3F-A2A9-5BBFB3C8F69A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

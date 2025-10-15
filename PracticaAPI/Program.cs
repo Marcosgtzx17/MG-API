@@ -1,6 +1,6 @@
 using PracticaAPI.Interfaces;
 using PracticaAPI.Repositorios;
-using PracticaAPI.Services; 
+using PracticaAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -8,7 +8,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+// -------------------- DB CONTEXT --------------------
 builder.Services.AddDbContext<appDBContext>((serviceProvider, options) =>
 {
     var connectionString = builder.Configuration.GetConnectionString("Conn");
@@ -17,14 +17,13 @@ builder.Services.AddDbContext<appDBContext>((serviceProvider, options) =>
     options.EnableDetailedErrors();
 });
 
+// -------------------- DEPENDENCIAS --------------------
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IAuthService, AuthRepository>();
-
-
 builder.Services.AddScoped<ICategoriaMGRepository, CategoriaMGRepository>();
 builder.Services.AddScoped<ICategoriaMGService, CategoriaMGService>();
 
-
+// -------------------- AUTENTICACIÓN JWT --------------------
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>
     {
@@ -43,7 +42,7 @@ builder.Services.AddAuthentication("Bearer")
 
 builder.Services.AddControllers();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// -------------------- SWAGGER --------------------
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -80,7 +79,7 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// -------------------- MIDDLEWARE --------------------
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -89,7 +88,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication(); // ?? IMPORTANTE: agregar antes de Authorization
+app.UseAuthentication(); // siempre antes de Authorization
 app.UseAuthorization();
 
 app.MapControllers();

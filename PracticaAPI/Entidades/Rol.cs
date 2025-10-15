@@ -2,8 +2,9 @@
 {
     public class Rol
     {
-        public int Id { get; set; }
-        public string Nombre { get; set; } = "";
+        public int Id { get; set; }                       // INT (AI)
+        public string Nombre { get; set; } = string.Empty; // VARCHAR(100)
+
         public ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
     }
 }

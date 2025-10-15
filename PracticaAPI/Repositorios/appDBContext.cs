@@ -1,62 +1,70 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PracticaAPI.Entidades;
-using System.Collections.Generic;
-
-
-using System.Reflection.Emit;
-
 
 namespace PracticaAPI.Repositorios
 {
-    
-        public class appDBContext : DbContext
+    public class appDBContext : DbContext
+    {
+        public appDBContext(DbContextOptions<appDBContext> options) : base(options) { }
 
-        {
-
-            public appDBContext(DbContextOptions<appDBContext> options)
-
-                : base(options)
-
-            {
-            }
-
-            public DbSet<Usuario> Usuarios { get; set; }
-
-            public DbSet<Rol> Roles { get; set; }
-           public DbSet<CategoriaMG> CategoriasMG { get; set; }
-
-
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Rol> Roles { get; set; }
+        public DbSet<CategoriaMG> CategoriasMG { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
+            // -------- usuarios --------
+            modelBuilder.Entity<Usuario>(e =>
             {
+                e.ToTable("usuarios");           // nombre real en MySQL
+                e.HasKey(x => x.Id);
 
-                base.OnModelCreating(modelBuilder);
+                e.Property(x => x.Nombre)
+                    .HasMaxLength(100)
+                    .IsRequired();
 
+                e.Property(x => x.Email)
+                    .HasMaxLength(150)
+                    .IsRequired();
 
+                e.Property(x => x.PasswordHash)
+                    .HasMaxLength(255)
+                    .IsRequired();
 
-                // Email unico
+                e.HasIndex(x => x.Email).IsUnique(); // email único
 
-                modelBuilder.Entity<Usuario>()
+                e.HasOne(x => x.Rol)
+                 .WithMany(r => r.Usuarios)
+                 .HasForeignKey(x => x.RolId)
+                 .OnDelete(DeleteBehavior.Restrict);
+            });
 
-                    .HasIndex(u => u.Email)
+            // -------- rol --------
+            modelBuilder.Entity<Rol>(e =>
+            {
+                e.ToTable("rol");                 // nombre real en MySQL
+                e.HasKey(x => x.Id);
 
-                    .IsUnique();
+                e.Property(x => x.Nombre)
+                    .HasMaxLength(100)
+                    .IsRequired();
+            });
 
+            // -------- CategoriaMG --------
+            modelBuilder.Entity<CategoriaMG>(e =>
+            {
+                e.ToTable("CategoriaMG");        // EXACTO como en tu CREATE TABLE
+                e.HasKey(x => x.Id);
 
+                e.Property(x => x.Nombre)
+                    .HasMaxLength(100)
+                    .IsRequired();
 
-                // Relacion 1 Rol -> N Usuarios
-
-                modelBuilder.Entity<Usuario>()
-
-                    .HasOne(u => u.Rol)
-
-                    .WithMany(r => r.Usuarios)
-
-                    .HasForeignKey(u => u.RolId);
-
-            }
+                e.Property(x => x.Descripcion)
+                    .HasMaxLength(255);
+            });
         }
-    
+    }
 }
-
